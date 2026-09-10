@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home · Movie Watchlist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="brand">🎬 Watchlist</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="watchlist.html">My List</a></li>
+      <li><a href="add.html">Add Movie</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>Keep track of everything you're watching.</h1>
+      <p>A simple place to log the movies you've finished, what you're watching now, and what's next in line.</p>
+      <a href="add.html" class="btn">+ Add a movie</a>
+    </section>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="recent">
+      <h2>Recently added</h2>
+      <ul class="recent-list" id="recentList"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    function renderStats() {
+      const movies = getMovies();
+      const completed = movies.filter(m => m.status === "Completed").length;
+      const watching = movies.filter(m => m.status === "Watching").length;
+      const planned = movies.filter(m => m.status === "Plan to Watch").length;
+
+      document.getElementById("stats").innerHTML = `
+        <div class="stat"><span class="num">${movies.length}</span><span class="label">Total movies</span></div>
+        <div class="stat"><span class="num">${completed}</span><span class="label">Completed</span></div>
+        <div class="stat"><span class="num">${watching}</span><span class="label">Watching</span></div>
+        <div class="stat"><span class="num">${planned}</span><span class="label">Plan to watch</span></div>
+      `;
+    }
+
+    function renderRecent() {
+      const movies = getMovies().slice(-5).reverse();
+      const list = document.getElementById("recentList");
+
+      if (movies.length === 0) {
+        list.innerHTML = `<li>No movies yet — <a href="add.html">add your first one</a>.</li>`;
+        return;
+      }
+
+      list.innerHTML = movies.map(m => `
+        <li>
+          <span>${m.title} (${m.year})</span>
+          <span class="${statusClass(m.status)}">${m.status}</span>
+        </li>
+      `).join("");
+    }
+
+    renderStats();
+    renderRecent();
+  </script>
+</body>
+</html>

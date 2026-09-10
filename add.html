@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Movie · Movie Watchlist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="brand">🎬 Watchlist</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="watchlist.html">My List</a></li>
+      <li><a href="add.html" class="active">Add Movie</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <h1>Add a movie</h1>
+        <p>Log a new title to your watchlist.</p>
+      </div>
+    </div>
+
+    <form class="form-card" id="addForm" novalidate>
+      <div class="field">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="e.g. Everything Everywhere All at Once">
+        <div class="field-error" id="titleError">Please enter a title.</div>
+      </div>
+
+      <div class="field">
+        <label for="genre">Genre</label>
+        <input type="text" id="genre" name="genre" placeholder="e.g. Comedy, Drama">
+        <div class="field-error" id="genreError">Please enter a genre.</div>
+      </div>
+
+      <div class="field">
+        <label for="year">Release year</label>
+        <input type="number" id="year" name="year" placeholder="e.g. 2022" min="1900" max="2100">
+        <div class="field-error" id="yearError">Please enter a valid year.</div>
+      </div>
+
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="Plan to Watch">Plan to Watch</option>
+          <option value="Watching">Watching</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="rating">Rating (0–10, leave 0 if not rated yet)</label>
+        <input type="number" id="rating" name="rating" min="0" max="10" value="0">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn">Add to watchlist</button>
+        <a href="watchlist.html" class="btn btn--ghost">Cancel</a>
+      </div>
+    </form>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    const form = document.getElementById("addForm");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const title = form.title.value.trim();
+      const genre = form.genre.value.trim();
+      const year = form.year.value;
+
+      // Basic validation — show inline errors instead of a blank alert
+      let valid = true;
+      document.getElementById("titleError").style.display = title ? "none" : "block";
+      document.getElementById("genreError").style.display = genre ? "none" : "block";
+      document.getElementById("yearError").style.display = year ? "none" : "block";
+      if (!title || !genre || !year) valid = false;
+
+      if (!valid) return;
+
+      addMovie({
+        title,
+        genre,
+        year: Number(year),
+        status: form.status.value,
+        rating: Number(form.rating.value) || 0
+      });
+
+      window.location.href = "watchlist.html";
+    });
+  </script>
+</body>
+</html>

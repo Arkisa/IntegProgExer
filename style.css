@@ -1,0 +1,314 @@
+/* ============================================================
+   style.css — shared look for the Movie Watchlist
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #12151A;
+  --surface: #1B2027;
+  --surface-2: #232A32;
+  --border: #2C333C;
+  --accent: #C99A3B;
+  --accent-soft: rgba(201, 154, 59, 0.15);
+  --text: #EAE7DF;
+  --text-muted: #8B94A0;
+  --success: #6FA787;
+  --success-soft: rgba(111, 167, 135, 0.15);
+  --danger: #C1595A;
+  --danger-soft: rgba(193, 89, 90, 0.15);
+  --watching: #6E9BC9;
+  --watching-soft: rgba(110, 155, 201, 0.15);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+h1, h2, h3, .brand {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; }
+
+/* --- Nav: a film-strip style divider instead of a plain border --- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: var(--surface);
+  border-bottom: 3px dashed var(--border);
+}
+
+.nav .brand {
+  font-size: 1.25rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+/* --- Home / hero --- */
+.hero h1 {
+  font-size: 2.6rem;
+  margin: 0 0 12px;
+  max-width: 14ch;
+}
+
+.hero p {
+  color: var(--text-muted);
+  max-width: 52ch;
+  margin: 0 0 32px;
+  font-size: 1.05rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.stat .num {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  color: var(--accent);
+  display: block;
+}
+
+.stat .label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.recent h2 {
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+}
+
+.recent-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+
+.recent-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.recent-list li span:first-child { color: var(--text); }
+
+/* --- Buttons --- */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #14151A;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn:hover { opacity: 0.88; }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn--danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+}
+
+.btn--small {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.page-head p { color: var(--text-muted); margin: 4px 0 0; }
+
+/* --- Table --- */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table { width: 100%; border-collapse: collapse; }
+
+th, td {
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 0.92rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--surface-2);
+}
+
+tr:last-child td { border-bottom: none; }
+
+.title-cell { font-family: 'Fraunces', serif; font-weight: 600; }
+.title-cell .year { color: var(--text-muted); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.85rem; }
+
+.actions { display: flex; gap: 8px; }
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.badge--done { background: var(--success-soft); color: var(--success); }
+.badge--watching { background: var(--watching-soft); color: var(--watching); }
+.badge--plan { background: var(--accent-soft); color: var(--accent); }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+/* --- Forms --- */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  max-width: 480px;
+}
+
+.field { margin-bottom: 20px; }
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-top: 6px;
+  display: none;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--success);
+  color: #12151A;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .nav { flex-direction: column; gap: 14px; align-items: flex-start; }
+  main { padding: 32px 20px 60px; }
+  .actions { flex-direction: column; }
+}

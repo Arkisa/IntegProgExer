@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My List · Movie Watchlist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="brand">🎬 Watchlist</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="watchlist.html" class="active">My List</a></li>
+      <li><a href="add.html">Add Movie</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <h1>My List</h1>
+        <p>Every movie you've logged, in one place.</p>
+      </div>
+      <a href="add.html" class="btn">+ Add movie</a>
+    </div>
+
+    <div class="table-wrap" id="tableWrap"></div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+  <script>
+    function render() {
+      const movies = getMovies();
+      const wrap = document.getElementById("tableWrap");
+
+      if (movies.length === 0) {
+        wrap.innerHTML = `
+          <div class="empty-state">
+            <p>Your list is empty.</p>
+            <a href="add.html" class="btn">Add your first movie</a>
+          </div>`;
+        return;
+      }
+
+      wrap.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Genre</th>
+              <th>Status</th>
+              <th>Rating</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${movies.map(m => `
+              <tr>
+                <td class="title-cell">${m.title} <span class="year">${m.year}</span></td>
+                <td>${m.genre}</td>
+                <td><span class="${statusClass(m.status)}">${m.status}</span></td>
+                <td>${m.rating > 0 ? m.rating + "/10" : "—"}</td>
+                <td class="actions">
+                  <a class="btn btn--ghost btn--small" href="edit.html?id=${m.id}">Edit</a>
+                  <button class="btn btn--danger" data-id="${m.id}" data-title="${m.title}">Delete</button>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+
+      // Wire up delete buttons after rendering
+      wrap.querySelectorAll("button[data-id]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.id;
+          const title = btn.dataset.title;
+          if (confirm(`Remove "${title}" from your list?`)) {
+            deleteMovie(id);
+            render();
+            showToast(`Removed "${title}"`);
+          }
+        });
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => (toast.style.display = "none"), 2200);
+    }
+
+    render();
+  </script>
+</body>
+</html>

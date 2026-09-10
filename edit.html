@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Movie · Movie Watchlist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="brand">🎬 Watchlist</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="watchlist.html" class="active">My List</a></li>
+      <li><a href="add.html">Add Movie</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <h1>Edit movie</h1>
+        <p>Update the details, or remove this title entirely.</p>
+      </div>
+    </div>
+
+    <div id="content"></div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const movieId = params.get("id");
+    const movie = movieId ? getMovieById(movieId) : null;
+    const content = document.getElementById("content");
+
+    if (!movie) {
+      content.innerHTML = `
+        <div class="form-card">
+          <p>We couldn't find that movie. It may have already been deleted.</p>
+          <a href="watchlist.html" class="btn">Back to My List</a>
+        </div>`;
+    } else {
+      content.innerHTML = `
+        <form class="form-card" id="editForm" novalidate>
+          <div class="field">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="${movie.title}">
+            <div class="field-error" id="titleError">Please enter a title.</div>
+          </div>
+
+          <div class="field">
+            <label for="genre">Genre</label>
+            <input type="text" id="genre" name="genre" value="${movie.genre}">
+            <div class="field-error" id="genreError">Please enter a genre.</div>
+          </div>
+
+          <div class="field">
+            <label for="year">Release year</label>
+            <input type="number" id="year" name="year" value="${movie.year}" min="1900" max="2100">
+            <div class="field-error" id="yearError">Please enter a valid year.</div>
+          </div>
+
+          <div class="field">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+              <option value="Plan to Watch" ${movie.status === "Plan to Watch" ? "selected" : ""}>Plan to Watch</option>
+              <option value="Watching" ${movie.status === "Watching" ? "selected" : ""}>Watching</option>
+              <option value="Completed" ${movie.status === "Completed" ? "selected" : ""}>Completed</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="rating">Rating (0–10)</label>
+            <input type="number" id="rating" name="rating" value="${movie.rating}" min="0" max="10">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">Save changes</button>
+            <a href="watchlist.html" class="btn btn--ghost">Cancel</a>
+            <button type="button" class="btn btn--danger" id="deleteBtn">Delete</button>
+          </div>
+        </form>
+      `;
+
+      const form = document.getElementById("editForm");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const title = form.title.value.trim();
+        const genre = form.genre.value.trim();
+        const year = form.year.value;
+
+        let valid = true;
+        document.getElementById("titleError").style.display = title ? "none" : "block";
+        document.getElementById("genreError").style.display = genre ? "none" : "block";
+        document.getElementById("yearError").style.display = year ? "none" : "block";
+        if (!title || !genre || !year) valid = false;
+
+        if (!valid) return;
+
+        updateMovie(movie.id, {
+          title,
+          genre,
+          year: Number(year),
+          status: form.status.value,
+          rating: Number(form.rating.value) || 0
+        });
+
+        window.location.href = "watchlist.html";
+      });
+
+      document.getElementById("deleteBtn").addEventListener("click", () => {
+        if (confirm(`Delete "${movie.title}" from your list?`)) {
+          deleteMovie(movie.id);
+          window.location.href = "watchlist.html";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
