@@ -9,8 +9,6 @@ const SEED_MOVIES = [
   { id: 4, title: "Your Name", genre: "Romance", year: 2016, status: "Plan to Watch", rating: 0 }
 ];
 
-// Read the full list of movies from localStorage.
-// If nothing is saved yet, seed it with SEED_MOVIES first.
 function getMovies() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
