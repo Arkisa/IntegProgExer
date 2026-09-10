@@ -1,14 +1,22 @@
+/* ============================================================
+   app.js — shared data layer for the Movie Watchlist
+   This is the ONLY place that talks to localStorage.
+   Every page includes this file and calls these functions.
+   ============================================================ */
+
 const STORAGE_KEY = "movieWatchlist";
 
 // Movies to pre-fill the app with the first time it runs,
 // so the list isn't empty when you demo/test it.
 const SEED_MOVIES = [
-  { id: 1, title: "Spirited Away", genre: "Fantasy", year: 2001, status: "Completed", rating: 9 },
-  { id: 2, title: "Parasite", genre: "Thriller", year: 2019, status: "Completed", rating: 10 },
-  { id: 3, title: "Dune: Part Two", genre: "Sci-Fi", year: 2024, status: "Watching", rating: 8 },
-  { id: 4, title: "Your Name", genre: "Romance", year: 2016, status: "Plan to Watch", rating: 0 }
+  { id: 1, title: "Spiderman: Brand New Day", genre: "Action", year: 2026, status: "Completed", rating: 9 },
+  { id: 2, title: "How to train your Dragon", genre: "Adventure", year: 2010, status: "Completed", rating: 10 },
+  { id: 3, title: "Weapons", genre: "Horror", year: 2025, status: "Watching", rating: 10 },
+  { id: 4, title: "Your Name", genre: "Romance", year: 2016, status: "Watching", rating: 0 }
 ];
 
+// Read the full list of movies from localStorage.
+// If nothing is saved yet, seed it with SEED_MOVIES first.
 function getMovies() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
