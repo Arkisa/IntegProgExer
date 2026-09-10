@@ -74,7 +74,6 @@
         </table>
       `;
 
-      // Wire up delete buttons after rendering
       wrap.querySelectorAll("button[data-id]").forEach(btn => {
         btn.addEventListener("click", () => {
           const id = btn.dataset.id;
